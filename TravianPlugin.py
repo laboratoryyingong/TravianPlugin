@@ -70,12 +70,12 @@ class init:
         else:
             window = window.next
 
-class boostSolider:
+class boostSoldier:
 
     trigger = 1
 
-    #soilderType array is used to describ how many resource to use
-    soilderType = {
+    #soldierType array is used to describ how many resource to use
+    soldierType = {
         'legionnaire' : [120, 100, 150, 30],
         'Praetorian' : [100, 130, 160, 70]
     }
@@ -83,10 +83,10 @@ class boostSolider:
     def __init__(self, browser, chooseType):
         self.browser = browser
         self.chooseType = chooseType
-        boostSolider.Type = boostSolider.soilderType[chooseType]
+        boostSoldier.Type = boostSoldier.soldierType[chooseType]
 
     def reloadPage(self):
-        if boostSolider.trigger == 1:
+        if boostSoldier.trigger == 1:
             self.browser.reload()
 
         else:
@@ -119,21 +119,21 @@ class boostSolider:
                 print "Current ", arrName[i] ," is ",tempArray[i]
                 i = i + 1
 
-            if  tempArray[0] > boostSolider.Type[0] and tempArray[1] > boostSolider.Type[1] and tempArray[2] > boostSolider.Type[2] and tempArray[3] > boostSolider.Type[3]:
+            if  tempArray[0] > boostSoldier.Type[0] and tempArray[1] > boostSoldier.Type[1] and tempArray[2] > boostSoldier.Type[2] and tempArray[3] > boostSoldier.Type[3]:
                 print "\033[31;1m" + "Good, we have enough resources to boost more soilders \n" + "\033[0m"
 
                 o = urlparse(self.browser.url )
                 boostUrl = "http://" + o.netloc + "/build.php?id=32"
                 self.browser.visit(boostUrl)
 
-                def soliderChoose(x):
+                def soldierChoose(x):
                     switcher = {
                         'legionnaire' : 't1',
                         'Praetorian' : 't2'
                     }
                     return switcher.get(x, 'none')
 
-                self.browser.fill(soliderChoose(self.chooseType), '1')
+                self.browser.fill(soldierChoose(self.chooseType), '1')
                 soldierBtn = self.browser.find_by_id('s1')
                 soldierBtn.click()
 
@@ -142,11 +142,11 @@ class boostSolider:
 
 
     def stop():
-        boostSolider.trigger = 0
+        boostSoldier.trigger = 0
 
 #instance input browserType + which server + username + password
 instance1 = init('firefox', 3, 'max.g.laboratory@gmail.com', '1266Mg96')
-boostInstance1 = boostSolider(instance1.browser, "Praetorian")
+boostInstance1 = boostSoldier(instance1.browser, "Praetorian")
 
 #run
 instance1.establish()
