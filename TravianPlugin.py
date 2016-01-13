@@ -23,6 +23,20 @@ def commonStrip(var):
     return var
 
 
+def loop():
+    frequency = random.uniform(15, 25)
+
+    print "\033[34;1m" + "Attention: after ", frequency, " seconds, browser will refresh page." + "\033[0m"
+    print "\033[35;1m" + time.strftime('%Y-%m-%d %A %X %Z',time.localtime(time.time())) + "\033[0m"
+    print "\033[36;1m" + "reload page, continue...... \n" + "\033[0m"
+
+    boostInstance1.reloadPage()
+    boostInstance1.boost()
+
+    t = threading.Timer(frequency, loop)
+    t.start()
+
+
 class init:
 
     loginUserCounter = 0
@@ -71,17 +85,9 @@ class boostSolider:
         self.chooseType = chooseType
         boostSolider.Type = boostSolider.soilderType[chooseType]
 
-    def check(self):
+    def reloadPage(self):
         if boostSolider.trigger == 1:
-
-            frequency = random.uniform(15, 25)
-
-            print "Attention: after ", frequency, " seconds, browser will refresh page."
-            print time.strftime('%Y-%m-%d %A %X %Z',time.localtime(time.time()))
-            print "reload page, continue...... \n"
-
-            t = threading.Timer(frequency, self.browser.reload)
-            t.start()
+            self.browser.reload()
 
         else:
             print "Boost process has been stopped!"
@@ -114,7 +120,7 @@ class boostSolider:
                 i = i + 1
 
             if  tempArray[0] > boostSolider.Type[0] and tempArray[1] > boostSolider.Type[1] and tempArray[2] > boostSolider.Type[2] and tempArray[3] > boostSolider.Type[3]:
-                print "\033[31;1m" + "Good, we have enough resources to boost more soilders" + "\033[0m"
+                print "\033[31;1m" + "Good, we have enough resources to boost more soilders \n" + "\033[0m"
 
                 o = urlparse(self.browser.url )
                 boostUrl = "http://" + o.netloc + "/build.php?id=32"
@@ -132,7 +138,7 @@ class boostSolider:
                 soldierBtn.click()
 
             else:
-                print "\033[33;1m","Sorry, we do not have enough resources, will try after reload","\033[0m"
+                print "\033[33;1m" + "Sorry, we do not have enough resources, will try after reload \n" + "\033[0m"
 
 
     def stop():
@@ -140,11 +146,12 @@ class boostSolider:
 
 #instance input browserType + which server + username + password
 instance1 = init('firefox', 3, 'max.g.laboratory@gmail.com', '1266Mg96')
-boostInstance1 = boostSolider(instance1.browser, "legionnaire")
+boostInstance1 = boostSolider(instance1.browser, "Praetorian")
 
 #run
 instance1.establish()
-boostInstance1.boost()
-
+loop()
 
 #threading.Timer(4,instance1.destory).start()
+
+
