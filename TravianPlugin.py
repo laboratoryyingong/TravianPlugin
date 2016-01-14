@@ -9,7 +9,6 @@ import threading,json,random,re,time
 
 
 #funciton summary
-#strip string and get value
 def commonStrip(var):
     var = var.encode()
     p = re.compile("\d+,\d+?")
@@ -23,17 +22,17 @@ def commonStrip(var):
     return var
 
 
-def loop():
-    frequency = random.uniform(15, 25)
+def loop(func1, func2, minloop, maxloop):
+    frequency = random.uniform(minloop, maxloop)
 
     print "\033[34;1m" + "Attention: after ", frequency, " seconds, browser will refresh page." + "\033[0m"
     print "\033[35;1m" + time.strftime('%Y-%m-%d %A %X %Z',time.localtime(time.time())) + "\033[0m"
     print "\033[36;1m" + "reload page, continue...... \n" + "\033[0m"
 
-    boostInstance1.reloadPage()
-    boostInstance1.boost()
+    func1()
+    func2()
 
-    t = threading.Timer(frequency, loop)
+    t = threading.Timer(frequency, loop(func1, func2, minloop, maxloop))
     t.start()
 
 
@@ -74,7 +73,7 @@ class boostSoldier:
 
     trigger = 1
 
-    #soldierType array is used to describ how many resource to use
+    #soldierType is used to describ how many resource to use
     soldierType = {
         'legionnaire' : [120, 100, 150, 30],
         'Praetorian' : [100, 130, 160, 70]
@@ -144,13 +143,17 @@ class boostSoldier:
     def stop():
         boostSoldier.trigger = 0
 
+#class upgradeField:
+
+
+
 #instance input browserType + which server + username + password
 instance1 = init('firefox', 3, 'max.g.laboratory@gmail.com', '1266Mg96')
 boostInstance1 = boostSoldier(instance1.browser, "Praetorian")
 
 #run
 instance1.establish()
-loop()
+loop(boostInstance1.reloadPage,boostInstance1.boost,10,25)
 
 #threading.Timer(4,instance1.destory).start()
 

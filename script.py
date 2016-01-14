@@ -120,8 +120,6 @@ def reloadPage():
     t = threading.Timer(frequency, reloadPage)
     t.start()
 
-
-#threading.Timer(5,reloadPage).start()
 threading.Timer(4,reloadPage).start()
 
 
