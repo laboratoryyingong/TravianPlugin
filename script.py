@@ -29,8 +29,8 @@ while i < 18:
 #flag.click
 
 #enter into solider produce
-url2 = "http://ts3.travian.com/build.php?id=32"
-browser.visit(url2)
+#url2 = "http://ts3.travian.com/build.php?id=32"
+#browser.visit(url2)
 
 #change color
 #print "\033[1;5;33;44;4mHello, world\033[0m"

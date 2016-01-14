@@ -8,6 +8,13 @@ from splinter import Browser
 import threading,json,random,re,time
 
 
+#constant
+arrFiled = []
+i = 0
+while i < 18:
+    i = i + 1
+    arrFiled.append("http://ts3.travian.com/build.php?id=" + str(i))
+
 #funciton summary
 def commonStrip(var):
     var = var.encode()
@@ -32,9 +39,8 @@ def loop(func1, func2, minloop, maxloop):
     func1()
     func2()
 
-    t = threading.Timer(frequency, loop(func1, func2, minloop, maxloop))
-    t.start()
-
+    time.sleep(frequency)
+    loop(func1, func2, minloop, maxloop)
 
 class init:
 
@@ -143,18 +149,43 @@ class boostSoldier:
     def stop():
         boostSoldier.trigger = 0
 
-#class upgradeField:
+class upgradeField:
 
+    position = 0
+
+    def __init__(self, browser):
+        self.browser = browser
+
+    def reloadPage(self):
+        self.browser.reload()
+
+    def upgrade(self):
+        p = upgradeField.position % 18
+        upgradeField.position += 1
+
+        print "\033[41;1m",arrFiled[p],"\033[0m"
+        urlBuild = arrFiled[p]
+        self.browser.visit(urlBuild)
+
+        buildBtn = self.browser.find_by_css('button .button-content')
+
+        if buildBtn:
+            buildBtn.click()
+            print "\033[31;1m","Push build request to queue","\033[0m"
+        else:
+            print "\033[31;1m","Still not ready to build","\033[0m"
+
+#    TODO:
+#    def stop():
 
 
 #instance input browserType + which server + username + password
-instance1 = init('firefox', 3, 'max.g.laboratory@gmail.com', '1266Mg96')
-boostInstance1 = boostSoldier(instance1.browser, "Praetorian")
+user = init('firefox', 3, 'max.g.laboratory@gmail.com', '1266Mg96')
+boostSoldier = boostSoldier(user.browser, "Praetorian")
+upgradeField = upgradeField(user.browser)
 
-#run
-instance1.establish()
-loop(boostInstance1.reloadPage,boostInstance1.boost,10,25)
-
-#threading.Timer(4,instance1.destory).start()
-
+#run boost soldier or upgradefield
+user.establish()
+#loop(boostSoldier.reloadPage, boostSoldier.boost, 10, 25)
+loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
 
