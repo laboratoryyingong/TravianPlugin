@@ -235,12 +235,6 @@ class upgradeField:
 #run
 choice = getChoice()
 
-<<<<<<< HEAD
-#run boost soldier or upgradefield
-user.establish()
-loop(boostSoldier.reloadPage, boostSoldier.boost, 35, 120)
-#loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
-=======
 while choice != "q":
     if choice == "i":
         info()
@@ -251,6 +245,5 @@ while choice != "q":
     else:
         print("Invalid choice, please choose again")
         print("\n")
->>>>>>> origin/master
 
     choice = getChoice()
