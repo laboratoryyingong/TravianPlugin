@@ -121,7 +121,7 @@ class boostSoldier:
 
             #output all essential data
             while i < 4:
-                print "Current ", arrName[i] ," is ",tempArray[i]
+                print "Current " + arrName[i] + " is " + str(tempArray[i])
                 i = i + 1
 
             if  tempArray[0] > boostSoldier.Type[0] and tempArray[1] > boostSoldier.Type[1] and tempArray[2] > boostSoldier.Type[2] and tempArray[3] > boostSoldier.Type[3]:
@@ -163,7 +163,7 @@ class upgradeField:
         p = upgradeField.position % 18
         upgradeField.position += 1
 
-        print "\033[41;1m",arrFiled[p],"\033[0m"
+        print "\033[41;1m" + arrFiled[p] + "\033[0m"
         urlBuild = arrFiled[p]
         self.browser.visit(urlBuild)
 
@@ -171,9 +171,9 @@ class upgradeField:
 
         if buildBtn:
             buildBtn.click()
-            print "\033[31;1m","Push build request to queue","\033[0m"
+            print "\033[31;1m" + "Push build request to queue" + "\033[0m"
         else:
-            print "\033[31;1m","Still not ready to build","\033[0m"
+            print "\033[31;1m" + "Still not ready to build" + "\033[0m"
 
 #    TODO:
 #    def stop():
@@ -186,6 +186,6 @@ upgradeField = upgradeField(user.browser)
 
 #run boost soldier or upgradefield
 user.establish()
-#loop(boostSoldier.reloadPage, boostSoldier.boost, 10, 25)
-loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
+loop(boostSoldier.reloadPage, boostSoldier.boost, 35, 120)
+#loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
 
