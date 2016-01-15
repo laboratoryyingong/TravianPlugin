@@ -47,7 +47,7 @@ def loop(func1, func2, minloop, maxloop):
 #menu driven interface
 
 def getChoice():
-    print "\033[42;39;1m" + "\nWelcome to MAD MAX World" + "\n(I)nput your account + password" + "\n(U)pgrade your field" + "\n(B)oost your soldier" + "\n(Q)uit" + "\033[0m"
+    print "\033[1;32;41;1m" + "\nWelcome to MAD MAX World" + "\n(I)nput your account + password" + "\n(U)pgrade your field" + "\n(B)oost your soldier" + "\n(Q)uit" + "\033[0m"
     choose = raw_input(">>> ")
     choice = choose.lower()
 
@@ -55,7 +55,7 @@ def getChoice():
 
 def info():
 
-    global user,userInfo
+    global userInfo
 
     print "\033[35;1m" + "Please input your account: " + "\033[0m"
     accountName = raw_input()
@@ -69,12 +69,13 @@ def info():
     userInfo.append(accountName)
     userInfo.append(accountPassword)
 
-    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
+    print "\033[1;32;41;1m" + "Have collected your info, please choose what to do: " + "\033[0m"
 
 def boost():
-    global boostSoldier
+    global boostSoldier,user
 
-    print "\033[36;1m" + "Which solider you want to boost: " + "\033[0m"
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
+    print "\033[36;1m" + "Which solider you want to boost: ('legionnaire' or 'Praetorian')" + "\033[0m"
     soliderName = raw_input()
 
     user.establish()
@@ -83,8 +84,9 @@ def boost():
 
 
 def upgrade():
-    global upgradeField
+    global upgradeField,user
 
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     print "\033[36;1m" + "You want to upgrade your field? " + "\033[0m"
 
     user.establish()
