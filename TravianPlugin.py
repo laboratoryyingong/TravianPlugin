@@ -15,6 +15,8 @@ while i < 18:
     i = i + 1
     arrFiled.append("http://ts3.travian.com/build.php?id=" + str(i))
 
+userInfo = []
+
 #funciton summary
 def commonStrip(var):
     var = var.encode()
@@ -42,6 +44,55 @@ def loop(func1, func2, minloop, maxloop):
     time.sleep(frequency)
     loop(func1, func2, minloop, maxloop)
 
+#menu driven interface
+
+def getChoice():
+    print "\033[42;39;1m" + "\nWelcome to MAD MAX World" + "\n(I)nput your account + password" + "\n(U)pgrade your field" + "\n(B)oost your soldier" + "\n(Q)uit" + "\033[0m"
+    choose = raw_input(">>> ")
+    choice = choose.lower()
+
+    return choice
+
+def info():
+
+    global user,userInfo
+
+    print "\033[35;1m" + "Please input your account: " + "\033[0m"
+    accountName = raw_input()
+    print "\033[35;1m" + "Please input your password: " + "\033[0m"
+    accountPassword = raw_input()
+    print "\033[35;1m" + "Please input your server number: " + "\033[0m"
+    accoutServerNum = raw_input()
+
+    userInfo.append('firefox')
+    userInfo.append(accoutServerNum)
+    userInfo.append(accountName)
+    userInfo.append(accountPassword)
+
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
+
+def boost():
+    global boostSoldier
+
+    print "\033[36;1m" + "Which solider you want to boost: " + "\033[0m"
+    soliderName = raw_input()
+
+    user.establish()
+    boostSoldier = boostSoldier(user.browser, soliderName)
+    loop(boostSoldier.reloadPage, boostSoldier.boost, 15, 25)
+
+
+def upgrade():
+    global upgradeField
+
+    print "\033[36;1m" + "You want to upgrade your field? " + "\033[0m"
+
+    user.establish()
+    upgradeField = upgradeField(user.browser)
+    loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
+
+
+#main class
 class init:
 
     loginUserCounter = 0
@@ -179,13 +230,18 @@ class upgradeField:
 #    def stop():
 
 
-#instance input browserType + which server + username + password
-user = init('firefox', 3, 'max.g.laboratory@gmail.com', '1266Mg96')
-boostSoldier = boostSoldier(user.browser, "Praetorian")
-upgradeField = upgradeField(user.browser)
+#run
+choice = getChoice()
 
-#run boost soldier or upgradefield
-user.establish()
-#loop(boostSoldier.reloadPage, boostSoldier.boost, 10, 25)
-loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
+while choice != "q":
+    if choice == "i":
+        info()
+    elif choice == "u":
+        boost()
+    elif choice == "b":
+        upgrade()
+    else:
+        print("Invalid choice, please choose again")
+        print("\n")
 
+    choice = getChoice()
