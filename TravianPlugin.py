@@ -5,7 +5,7 @@
 
 from urlparse import urlparse
 from splinter import Browser
-import threading,json,random,re,time
+import threading,json,random,re,time,getpass
 
 
 #constant
@@ -60,7 +60,7 @@ def info():
     print "\033[35;1m" + "Please input your account: " + "\033[0m"
     accountName = raw_input()
     print "\033[35;1m" + "Please input your password: " + "\033[0m"
-    accountPassword = raw_input()
+    accountPassword = getpass.getpass()
     print "\033[35;1m" + "Please input your server number: " + "\033[0m"
     accoutServerNum = raw_input()
 
@@ -239,9 +239,9 @@ while choice != "q":
     if choice == "i":
         info()
     elif choice == "u":
-        boost()
-    elif choice == "b":
         upgrade()
+    elif choice == "b":
+        boost()
     else:
         print("Invalid choice, please choose again")
         print("\n")
