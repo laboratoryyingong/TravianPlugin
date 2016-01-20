@@ -47,7 +47,7 @@ def loop(func1, func2, minloop, maxloop):
 #menu driven interface
 
 def getChoice():
-    print "\033[1;32;41;1m" + "\nWelcome to MAD MAX World" + "\n(I)nput your account + password" + "\n(U)pgrade your field" + "\n(B)oost your soldier" + "\n(Q)uit" + "\033[0m"
+    print "\033[1;32;41;1m" + "\nWelcome to MAD MAX World" + "\n(I)nput your account + password" + "\n(S)tart new game" + "\n(U)pgrade your field" + "\n(B)oost your soldier" + "\n(Q)uit" + "\033[0m"
     choose = raw_input(">>> ")
     choice = choose.lower()
 
@@ -70,6 +70,14 @@ def info():
     userInfo.append(accountPassword)
 
     print "\033[1;32;41;1m" + "Have collected your info, please choose what to do: " + "\033[0m"
+
+def openBrowser():
+    global user
+
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
+    print "\033[36;1m" + "We will start game for you" + "\033[0m"
+
+    user.establish()
 
 def boost():
     global boostSoldier,user
@@ -238,6 +246,8 @@ choice = getChoice()
 while choice != "q":
     if choice == "i":
         info()
+    if choice == "s":
+        openBrowser()
     elif choice == "u":
         upgrade()
     elif choice == "b":
