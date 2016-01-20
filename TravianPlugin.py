@@ -47,7 +47,7 @@ def loop(func1, func2, minloop, maxloop):
 #menu driven interface
 
 def getChoice():
-    print "\033[1;32;41;1m" + "\nWelcome to MAD MAX World" + "\n(I)nput your account + password" + "\n(U)pgrade your field" + "\n(B)oost your soldier" + "\n(Q)uit" + "\033[0m"
+    print "\033[1;32;41;1m" + "\nWelcome to MAD MAX World" + "\n(I)nput your account + password" + "\n(S)tart game" + "\n(U)pgrade your field" + "\n(B)oost your soldier" + "\n(Q)uit" + "\033[0m"
     choose = raw_input(">>> ")
     choice = choose.lower()
 
@@ -71,13 +71,19 @@ def info():
 
     print "\033[1;32;41;1m" + "Have collected your info, please choose what to do: " + "\033[0m"
 
+def start():
+    global user
+
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
+    user.establish()
+
 def boost():
     global boostSoldier,user
 
-    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     print "\033[36;1m" + "Which solider you want to boost: ('legionnaire' or 'Praetorian')" + "\033[0m"
     soliderName = raw_input()
 
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     user.establish()
     boostSoldier = boostSoldier(user.browser, soliderName)
     loop(boostSoldier.reloadPage, boostSoldier.boost, 15, 25)
@@ -86,12 +92,12 @@ def boost():
 def upgrade():
     global upgradeField,user
 
-    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     print "\033[36;1m" + "You want to upgrade your field? " + "\033[0m"
 
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     user.establish()
     upgradeField = upgradeField(user.browser)
-    loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
+    loop(upgradeField.reloadPage, upgradeField.upgrade, 60, 80)
 
 
 #main class
@@ -135,7 +141,8 @@ class boostSoldier:
     #soldierType is used to describ how many resource to use
     soldierType = {
         'legionnaire' : [120, 100, 150, 30],
-        'Praetorian' : [100, 130, 160, 70]
+        'Praetorian' : [100, 130, 160, 70],
+        'Imperian' : [150, 160, 210, 80]
     }
 
     def __init__(self, browser, chooseType):
@@ -187,7 +194,8 @@ class boostSoldier:
                 def soldierChoose(x):
                     switcher = {
                         'legionnaire' : 't1',
-                        'Praetorian' : 't2'
+                        'Praetorian' : 't2',
+                        'Imperian' : 't3'
                     }
                     return switcher.get(x, 'none')
 
@@ -220,7 +228,7 @@ class upgradeField:
         urlBuild = arrFiled[p]
         self.browser.visit(urlBuild)
 
-        buildBtn = self.browser.find_by_css('button .button-content')
+        buildBtn = self.browser.find_by_css('.green .build')
 
         if buildBtn:
             buildBtn.click()
@@ -238,6 +246,8 @@ choice = getChoice()
 while choice != "q":
     if choice == "i":
         info()
+    elif choice == "s":
+        start()
     elif choice == "u":
         upgrade()
     elif choice == "b":
