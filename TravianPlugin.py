@@ -77,15 +77,14 @@ def openBrowser():
     user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     print "\033[36;1m" + "We will start game for you" + "\033[0m"
 
-    user.establish()
 
 def boost():
     global boostSoldier,user
 
-    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     print "\033[36;1m" + "Which solider you want to boost: ('legionnaire' or 'Praetorian')" + "\033[0m"
     soliderName = raw_input()
 
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     user.establish()
     boostSoldier = boostSoldier(user.browser, soliderName)
     loop(boostSoldier.reloadPage, boostSoldier.boost, 15, 25)
@@ -94,12 +93,12 @@ def boost():
 def upgrade():
     global upgradeField,user
 
-    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     print "\033[36;1m" + "You want to upgrade your field? " + "\033[0m"
 
+    user = init(userInfo[0], userInfo[1], userInfo[2], userInfo[3])
     user.establish()
     upgradeField = upgradeField(user.browser)
-    loop(upgradeField.reloadPage, upgradeField.upgrade, 120, 180)
+    loop(upgradeField.reloadPage, upgradeField.upgrade, 60, 80)
 
 
 #main class
@@ -143,7 +142,8 @@ class boostSoldier:
     #soldierType is used to describ how many resource to use
     soldierType = {
         'legionnaire' : [120, 100, 150, 30],
-        'Praetorian' : [100, 130, 160, 70]
+        'Praetorian' : [100, 130, 160, 70],
+        'Imperian' : [150, 160, 210, 80]
     }
 
     def __init__(self, browser, chooseType):
@@ -182,7 +182,7 @@ class boostSoldier:
 
             #output all essential data
             while i < 4:
-                print "Current ", arrName[i] ," is ",tempArray[i]
+                print "Current " + arrName[i] + " is " + str(tempArray[i])
                 i = i + 1
 
             if  tempArray[0] > boostSoldier.Type[0] and tempArray[1] > boostSoldier.Type[1] and tempArray[2] > boostSoldier.Type[2] and tempArray[3] > boostSoldier.Type[3]:
@@ -195,7 +195,8 @@ class boostSoldier:
                 def soldierChoose(x):
                     switcher = {
                         'legionnaire' : 't1',
-                        'Praetorian' : 't2'
+                        'Praetorian' : 't2',
+                        'Imperian' : 't3'
                     }
                     return switcher.get(x, 'none')
 
@@ -224,17 +225,17 @@ class upgradeField:
         p = upgradeField.position % 18
         upgradeField.position += 1
 
-        print "\033[41;1m",arrFiled[p],"\033[0m"
+        print "\033[41;1m" + arrFiled[p] + "\033[0m"
         urlBuild = arrFiled[p]
         self.browser.visit(urlBuild)
 
-        buildBtn = self.browser.find_by_css('button .button-content')
+        buildBtn = self.browser.find_by_css('.green .build')
 
         if buildBtn:
             buildBtn.click()
-            print "\033[31;1m","Push build request to queue","\033[0m"
+            print "\033[31;1m" + "Push build request to queue" + "\033[0m"
         else:
-            print "\033[31;1m","Still not ready to build","\033[0m"
+            print "\033[31;1m" + "Still not ready to build" + "\033[0m"
 
 #    TODO:
 #    def stop():
@@ -246,7 +247,7 @@ choice = getChoice()
 while choice != "q":
     if choice == "i":
         info()
-    if choice == "s":
+    elif choice == "s":
         openBrowser()
     elif choice == "u":
         upgrade()
